@@ -1,0 +1,12 @@
+build-essential
+cabextract
+cmake
+dotnet-runtime-9.0
+git
+libdnlib2.1-cil
+libffi-dev
+liblzo2-dev
+libmagic-dev
+libssl-dev
+python3-dev
+zlib1g-dev
