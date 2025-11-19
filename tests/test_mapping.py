@@ -534,6 +534,217 @@ class TestExecute(test_template.TestPlugin):
             inspect_data=True,
         )
 
+    def test_complex_child(self):
+        """Test all fields (including maco attributes) for a child binary are mapped."""
+
+        data = b"a normal run with a child"
+        result = self.do_execution(
+            data_in=[("content", data)],
+            config={"create_venv": "false", "scripts": os.path.join(_TDIR, "extractors", "mapping", "complex_child")},
+            no_multiprocessing=True,
+        )
+
+        self.assertJobResult(result[None], JobResult(state=State(State.Label.COMPLETED_EMPTY)))
+        self.assertJobResult(
+            result["ComplexChild"],
+            JobResult(
+                state=State(State.Label.COMPLETED),
+                events=[
+                    Event(
+                        entity_type="binary",
+                        entity_id="1239ed4331b652fd9a227355f9ce1568274e1811fe18f9fb38cb404a98536fab",
+                        features={
+                            "attack": [FV("T1204.002")],
+                            "category": [FV("adware")],
+                            "family": [FV("scuba")],
+                        },
+                    ),
+                    Event(
+                        parent=EventParent(
+                            entity_type="binary",
+                            entity_id="1239ed4331b652fd9a227355f9ce1568274e1811fe18f9fb38cb404a98536fab",
+                        ),
+                        entity_type="binary",
+                        entity_id="053ec394f2cfed3507e682b59d7b2397f5eb49163acc34a934e9b3da6ea766e4",
+                        relationship={"action": "extracted", "datatype": "payload"},
+                        data=[
+                            EventData(
+                                hash="053ec394f2cfed3507e682b59d7b2397f5eb49163acc34a934e9b3da6ea766e4",
+                                label="content",
+                            )
+                        ],
+                        features={
+                            "algorithm": [FV("AES", label="binary"), FV("XOR", label="config")],
+                            "algorithm_binary": [FV("AES")],
+                            "algorithm_config": [FV("XOR")],
+                            "campaign_id": [FV("32")],
+                            "capability_disabled": [FV("thing2")],
+                            "capability_enabled": [FV("thing1")],
+                            "client": [
+                                FV(Uri("tcp://12.3.2.1:9584"), label="tcp://73.21.32.43:4"),
+                                FV(Uri("tcp://16.8.4.2:1541"), label="tcp://tcpdomain.com:400"),
+                                FV(Uri("tcp://127.7.4.1:21737")),
+                                FV(Uri("udp://12.1.1.1:2131"), label="udp://73.21.32.43:42"),
+                                FV(Uri("udp://12.1.1.1:2131"), label="udp://udpdomain.com:42"),
+                                FV(Uri("udp://127.2.3.9:21784")),
+                            ],
+                            "coin": [FV("APE", label="ransomware")],
+                            "coin_address": [FV("689fdh658790d6dr987yth84iyth7er8gtrfohyt9", label="APE_ransomware")],
+                            "coin_ransomware": [FV("APE")],
+                            "connection": [
+                                FV(Uri("dns://123.21.21.21:9"), label="other"),
+                                FV(Uri("ftp://apple:bad@somewhere:553/temporary.exe"), label="c2"),
+                                FV(Uri("http:///thebad"), label="other"),
+                                FV(Uri("http://differenturi.com:221"), label="other"),
+                                FV(
+                                    Uri("https://user:pass@blarg.com:221/malz?yeah=453&blah=yeah#a_part_of_the_page"),
+                                    label="c2",
+                                ),
+                                FV(Uri("icmp://192.168.0.80"), label="c2"),
+                                FV(Uri("icmp://malicious.com"), label="other"),
+                                FV(Uri("smtp://user:pass@here.com:432"), label="upload"),
+                                FV(Uri("socks5://capsicum:red@192.168.0.80:56"), label="tunnel"),
+                                FV(Uri("ssh://user:pass@bad.malware:99"), label="download"),
+                                FV(Uri("tcp://73.21.32.43:4"), label="c2"),
+                                FV(Uri("tcp://tcpdomain.com:400"), label="upload"),
+                                FV(Uri("udp://73.21.32.43:42"), label="decoy"),
+                                FV(Uri("udp://udpdomain.com:42"), label="decoy"),
+                            ],
+                            "connection_c2": [
+                                FV(Uri("ftp://apple:bad@somewhere:553/temporary.exe")),
+                                FV(Uri("https://user:pass@blarg.com:221/malz?yeah=453&blah=yeah#a_part_of_the_page")),
+                                FV(Uri("icmp://192.168.0.80")),
+                                FV(Uri("tcp://73.21.32.43:4")),
+                            ],
+                            "connection_decoy": [
+                                FV(Uri("udp://73.21.32.43:42")),
+                                FV(Uri("udp://udpdomain.com:42")),
+                            ],
+                            "connection_download": [FV(Uri("ssh://user:pass@bad.malware:99"))],
+                            "connection_other": [
+                                FV(Uri("dns://123.21.21.21:9")),
+                                FV(Uri("http:///thebad")),
+                                FV(Uri("http://differenturi.com:221")),
+                                FV(Uri("icmp://malicious.com")),
+                            ],
+                            "connection_tunnel": [FV(Uri("socks5://capsicum:red@192.168.0.80:56"))],
+                            "connection_upload": [
+                                FV(Uri("smtp://user:pass@here.com:432")),
+                                FV(Uri("tcp://tcpdomain.com:400")),
+                            ],
+                            "decoded_strings": [FV("are"), FV("some"), FV("strings"), FV("there")],
+                            "dns_hostname": [FV("www.evil.com", label="dns://123.21.21.21:9")],
+                            "header_fields": [
+                                FV(
+                                    "Application State",
+                                    label="yeah_what_does_a_header_look_like - https://user:pass@blarg.com:221/malz?yeah=453&blah=yeah#a_part_of_the_page",
+                                )
+                            ],
+                            "header_values": [
+                                FV(
+                                    "yeah_what_does_a_header_look_like",
+                                    label="Application State - https://user:pass@blarg.com:221/malz?yeah=453&blah=yeah#a_part_of_the_page",
+                                )
+                            ],
+                            "headers": [
+                                FV(
+                                    "Application State: yeah_what_does_a_header_look_like",
+                                    label="https://user:pass@blarg.com:221/malz?yeah=453&blah=yeah#a_part_of_the_page",
+                                )
+                            ],
+                            "icmp_code": [FV("0", label="icmp://malicious.com")],
+                            "icmp_header": [FV("DEADBEEF", label="icmp://192.168.0.80")],
+                            "icmp_type": [FV("14", label="icmp://malicious.com")],
+                            "identifier": [FV("uxuduxuduxuudux")],
+                            "inject_exe": [FV("Teams.exe")],
+                            "key": [FV("abcdefgh", label="binary_AES"), FV("0x84", label="config_XOR")],
+                            "mail": [
+                                FV("me@you.com", label="smtp://user:pass@here.com:432"),
+                                FV("you@me.com", label="smtp://user:pass@here.com:432"),
+                                FV("your@computer.com", label="smtp://user:pass@here.com:432"),
+                            ],
+                            "mail_from": [FV("your@computer.com", label="smtp://user:pass@here.com:432")],
+                            "mail_subject": [
+                                FV("gum leaves - next superfood!???!", label="smtp://user:pass@here.com:432")
+                            ],
+                            "mail_to": [
+                                FV("me@you.com", label="smtp://user:pass@here.com:432"),
+                                FV("you@me.com", label="smtp://user:pass@here.com:432"),
+                            ],
+                            "max_size": [
+                                FV(595, label="http:///thebad"),
+                                FV(595, label="http://differenturi.com:221"),
+                                FV(
+                                    595,
+                                    label="https://user:pass@blarg.com:221/malz?yeah=453&blah=yeah#a_part_of_the_page",
+                                ),
+                            ],
+                            "method": [
+                                FV("GET", label="http:///thebad"),
+                                FV("GET", label="http://differenturi.com:221"),
+                                FV(
+                                    "GET",
+                                    label="https://user:pass@blarg.com:221/malz?yeah=453&blah=yeah#a_part_of_the_page",
+                                ),
+                            ],
+                            "mutex": [FV("YEAH")],
+                            "password": [
+                                FV("bad", label="ftp://apple:bad@somewhere:553/temporary.exe"),
+                                FV("hunter2"),
+                                FV(
+                                    "pass",
+                                    label="https://user:pass@blarg.com:221/malz?yeah=453&blah=yeah#a_part_of_the_page",
+                                ),
+                                FV("pass", label="smtp://user:pass@here.com:432"),
+                                FV("pass", label="ssh://user:pass@bad.malware:99"),
+                                FV("password", label="http:///thebad"),
+                                FV("password", label="http://differenturi.com:221"),
+                                FV("red", label="socks5://capsicum:red@192.168.0.80:56"),
+                            ],
+                            "path": [
+                                FV(Filepath("C:/Windows/system32"), label="install"),
+                                FV(Filepath("C:/user/USERNAME/xxxxx/xxxxx/"), label="logs"),
+                                FV(Filepath("\\here\\is\\some\\place"), label="install"),
+                            ],
+                            "path_install": [
+                                FV(Filepath("C:/Windows/system32")),
+                                FV(Filepath("\\here\\is\\some\\place")),
+                            ],
+                            "path_logs": [FV(Filepath("C:/user/USERNAME/xxxxx/xxxxx/"))],
+                            "pipe": [FV("xiod")],
+                            "ransom_amount": [FV(1.5, label="APE_ransomware")],
+                            "record_type": [FV("TXT", label="dns://123.21.21.21:9")],
+                            "registry": [
+                                FV("HKLM_LOCAL_USER/some/location/to/key", label="store_data"),
+                                FV("HKLM_LOCAL_USER/system/location", label="read"),
+                            ],
+                            "registry_read": [FV("HKLM_LOCAL_USER/system/location")],
+                            "registry_store_data": [FV("HKLM_LOCAL_USER/some/location/to/key")],
+                            "service": [FV("DeviceMonitorSvc")],
+                            "service_description": [FV("Device Monitor Service", label="DeviceMonitorSvc")],
+                            "service_display": [FV("DeviceMonitorSvc", label="DeviceMonitorSvc")],
+                            "service_dll": [FV("malware.dll", label="DeviceMonitorSvc")],
+                            "sleep_delay": [FV(45000)],
+                            "sleep_delay_jitter": [FV(2500)],
+                            "user_agent": [
+                                FV(
+                                    "moonbrowser 15.86",
+                                    label="https://user:pass@blarg.com:221/malz?yeah=453&blah=yeah#a_part_of_the_page",
+                                ),
+                                FV("sunbrowser 15.86", label="http:///thebad"),
+                                FV("sunbrowser 15.86", label="http://differenturi.com:221"),
+                            ],
+                            "version": [FV("lotso_stuff")],
+                        },
+                    ),
+                ],
+                data={
+                    "053ec394f2cfed3507e682b59d7b2397f5eb49163acc34a934e9b3da6ea766e4": b"\\x50\\x60\\x70\\x80",
+                },
+            ),
+            inspect_data=True,
+        )
+
     def test_uri_empty_protocol(self):
         """Test that uris with empty protocols are added correctly."""
 
