@@ -93,6 +93,7 @@ class AzulPluginMaco(BinaryPlugin):
     _BASE_FEATURES = [
         # basic
         Feature("family", desc="family of malware that was detected", type=FeatureType.String),
+        Feature("file_format_legacy", desc="legacy format of a file from maco", type=FeatureType.String),
         Feature("version", desc="version/variant of malware", type=FeatureType.String),
         Feature("category", desc="capability/purpose of the malware", type=FeatureType.String),
         Feature("attack", desc="mitre att&ck reference ids, e.g. 'T1129'", type=FeatureType.String),
