@@ -230,7 +230,7 @@ def map_maco_config(mapped: MappedData, cd1: ClearDict, is_child: bool):
                 port=cd2.get("port", ""),
                 path=cd2.get("path", ""),
             )
-            mapped.features[f'connection_{cd2.get("usage", "other")}'].append(uri)
+            mapped.features[f"connection_{cd2.get('usage', 'other')}"].append(uri)
             mapped.features["connection"].append(FV(uri, label=cd2.get("usage", "other")))
 
             if password := cd2.get("password", None):
@@ -247,7 +247,7 @@ def map_maco_config(mapped: MappedData, cd1: ClearDict, is_child: bool):
                 host=cd2.get("hostname", ""),
                 port=cd2.get("port", ""),
             )
-            mapped.features[f'connection_{cd2.get("usage", "other")}'].append(uri)
+            mapped.features[f"connection_{cd2.get('usage', 'other')}"].append(uri)
             mapped.features["connection"].append(FV(uri, label=cd2.get("usage", "other")))
 
             for mail_to in cd2.get("mail_to", []):
@@ -319,7 +319,7 @@ def map_maco_config(mapped: MappedData, cd1: ClearDict, is_child: bool):
                 host=cd2.get("hostname", ""),
                 port=cd2.get("port", ""),
             )
-            mapped.features[f'connection_{cd2.get("usage", "other")}'].append(uri)
+            mapped.features[f"connection_{cd2.get('usage', 'other')}"].append(uri)
             mapped.features["connection"].append(FV(uri, label=cd2.get("usage", "other")))
 
             if password := cd2.get("password", None):
@@ -335,7 +335,7 @@ def map_maco_config(mapped: MappedData, cd1: ClearDict, is_child: bool):
                 host=cd2.get("hostname", ""),
                 port=cd2.get("port", ""),
             )
-            mapped.features[f'connection_{cd2.get("usage", "other")}'].append(uri)
+            mapped.features[f"connection_{cd2.get('usage', 'other')}"].append(uri)
             mapped.features["connection"].append(FV(uri, label=cd2.get("usage", "other")))
 
             if password := cd2.get("password", None):
@@ -348,7 +348,7 @@ def map_maco_config(mapped: MappedData, cd1: ClearDict, is_child: bool):
                 proto="icmp",
                 host=cd2.get("hostname", ""),
             )
-            mapped.features[f'connection_{cd2.get("usage", "other")}'].append(uri)
+            mapped.features[f"connection_{cd2.get('usage', 'other')}"].append(uri)
             mapped.features["connection"].append(FV(uri, label=cd2.get("usage", "other")))
 
             if cd2.get("type", -1) >= 0:
@@ -366,7 +366,7 @@ def map_maco_config(mapped: MappedData, cd1: ClearDict, is_child: bool):
                 host=cd2.get("ip", ""),
                 port=cd2.get("port", ""),
             )
-            mapped.features[f'connection_{cd2.get("usage", "other")}'].append(uri)
+            mapped.features[f"connection_{cd2.get('usage', 'other')}"].append(uri)
             mapped.features["connection"].append(FV(uri, label=cd2.get("usage", "other")))
 
             if hostname := cd2.get("hostname", None):
@@ -572,8 +572,8 @@ def map_config(d: dict) -> MappedData:
                     try:
                         child.relationship.update(child_other.get("relationship"))
                         del child_other["relationship"]
-                    except ValueError:
-                        raise Exception("child relationship attribute must be a dictionary")
+                    except ValueError as e:
+                        raise Exception("child relationship attribute must be a dictionary") from e
                 child.other = child_other
                 mapped.children.append(child)
 
