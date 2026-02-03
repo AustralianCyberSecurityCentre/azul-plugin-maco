@@ -373,7 +373,7 @@ class AzulPluginMaco(BinaryPlugin):
                 try:
                     os.remove(pyc_path)
                     remove_count += 1
-                except Exception:  # nosec B110
+                except Exception:  # noqa: S110
                     pass
         self.logger.info(f"Cleaned up {remove_count} pyc files.")
 
