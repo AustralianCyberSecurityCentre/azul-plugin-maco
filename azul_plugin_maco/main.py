@@ -353,7 +353,7 @@ class AzulPluginMaco(BinaryPlugin):
                     self.logger.info(f"extractor {name} has base security {security}")
 
                 # use maco extractor description if specified
-                descr = f"Maco extractor for {extr["family"]}."
+                descr = f"Maco extractor for {extr['family']}."
                 if extr["description"]:
                     try:
                         descr = (extr["description"].partition(".")[0] + ".")[:100].replace("\n", "")
