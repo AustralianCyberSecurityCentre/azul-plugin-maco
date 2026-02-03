@@ -1,8 +1,8 @@
 ARG REGISTRY="docker.io/library"
 ARG BUILD_IMAGE='python'
-ARG BUILD_TAG='3.12-trixie'
+ARG BUILD_TAG='3.12-bookworm'
 ARG BASE_IMAGE='python'
-ARG BASE_TAG='3.12-slim-trixie'
+ARG BASE_TAG='3.12-slim-bookworm'
 
 FROM $REGISTRY/$BUILD_IMAGE:$BUILD_TAG AS builder
 ENV DEBIAN_FRONTEND=noninteractive
@@ -15,6 +15,8 @@ ARG UV_DEFAULT_INDEX
 ARG UV_INSECURE_HOST
 ARG GIT_BRANCH_NAME
 ARG PIP_EXTRA_INDEX_URL
+
+ARG DEBIAN_VERSION='12'
 
 # separate installation of MS package repo to reduce potential conflicts with the template
 RUN apt-get install -y wget && \
