@@ -27,6 +27,7 @@ dependencies = [
     "azul-runner>=9.0.38",
     "maco>=1.2.16",
     "pydantic>=2.0.0",
+    "setuptools==81.0.0",
 ]
 
 [project.scripts]
@@ -37,7 +38,7 @@ Documentation = "https://australiancybersecuritycentre.github.io/azul/"
 Repository = "https://github.com/AustralianCyberSecurityCentre/azul-plugin-maco"
 
 [[tool.uv.index]]
-url = "https://pypi.org/simple"
+url = "https://devpi.acsc.internal/azul/stable/+simple"
 default = true
 
 [tool.hatch.version]
