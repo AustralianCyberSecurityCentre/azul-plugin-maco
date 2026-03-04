@@ -97,4 +97,8 @@ FROM base AS release
 # copy from `tester` stage to ensure testing is not skipped due to build optimisations.
 COPY --from=tester /tmp/testingpassed /tmp/
 COPY ./constraints.txt /usr/constraints.txt
+ENV PIP_CONSTRAINT=/usr/constraints.txt
+ENV PIP_BUILD_CONSTRAINT=/usr/constraints.txt
+ENV UV_CONSTRAINT=/usr/constraints.txt
+ENV UV_BUILD_CONSTRAINT=/usr/constraints.txt
 ENTRYPOINT ["azul-plugin-maco"]
