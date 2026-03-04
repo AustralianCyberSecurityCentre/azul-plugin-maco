@@ -96,4 +96,5 @@ RUN touch /tmp/testingpassed
 FROM base AS release
 # copy from `tester` stage to ensure testing is not skipped due to build optimisations.
 COPY --from=tester /tmp/testingpassed /tmp/
+COPY ./constraints.txt /usr/constraints.txt
 ENTRYPOINT ["azul-plugin-maco"]
