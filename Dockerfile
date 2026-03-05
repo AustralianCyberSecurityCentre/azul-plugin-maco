@@ -57,12 +57,10 @@ COPY debian.txt /tmp/src/
 COPY --from=builder /packages-microsoft-prod.deb /tmp/packages-microsoft-prod.deb
 RUN dpkg -i /tmp/packages-microsoft-prod.deb && \
     rm -f /tmp/packages-microsoft-prod.deb
-# NOTE - also installing python 3.11 for older config-extractors
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
     $(grep -vE "^\s*(#|$)" /tmp/src/debian.txt | tr "\n" " ") && \
-    apt-get install -y --no-install-recommends python3.11 && \
     rm -rf /tmp/src/debian.txt /var/lib/apt/lists/*
 ARG UID=21000
 ARG GID=21000
