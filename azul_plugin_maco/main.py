@@ -327,7 +327,11 @@ class AzulPluginMaco(BinaryPlugin):
 
         # venv config exposed only to support quicker testing.
         self.collected = collector.Collector(
-            script_path, include=self.cfg.include, exclude=self.cfg.exclude, create_venv=self.cfg.create_venv
+            script_path,
+            include=self.cfg.include,
+            exclude=self.cfg.exclude,
+            create_venv=self.cfg.create_venv,
+            enable_venv_cache=True,
         )
         self.runs = {}
 
