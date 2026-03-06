@@ -96,4 +96,11 @@ RUN touch /tmp/testingpassed
 FROM base AS release
 # copy from `tester` stage to ensure testing is not skipped due to build optimisations.
 COPY --from=tester /tmp/testingpassed /tmp/
+# FUTURE - remove once lief is upgraded to 0.17.0+
+# Pinning setuptools to be older than 81 with a constraint during uv/pip build and installs due to setuptools removal of pkg_resources.
+COPY ./constraints.txt /usr/constraints.txt
+ENV PIP_CONSTRAINT=/usr/constraints.txt
+ENV PIP_BUILD_CONSTRAINT=/usr/constraints.txt
+ENV UV_CONSTRAINT=/usr/constraints.txt
+ENV UV_BUILD_CONSTRAINT=/usr/constraints.txt
 ENTRYPOINT ["azul-plugin-maco"]
