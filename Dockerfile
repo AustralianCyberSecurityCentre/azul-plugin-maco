@@ -1,8 +1,8 @@
 ARG REGISTRY="docker.io/library"
 ARG BUILD_IMAGE='python'
-ARG BUILD_TAG='3.12-trixie'
+ARG BUILD_TAG='3.12-bookworm'
 ARG BASE_IMAGE='python'
-ARG BASE_TAG='3.12-slim-trixie'
+ARG BASE_TAG='3.12-slim-bookworm'
 
 FROM $REGISTRY/$BUILD_IMAGE:$BUILD_TAG AS builder
 ENV DEBIAN_FRONTEND=noninteractive
@@ -20,6 +20,13 @@ ARG UV_INDEX_URL
 ARG UV_INSECURE_HOST
 # Ensure uv installs to the correct directory
 ENV UV_PROJECT_ENVIRONMENT=/usr/local
+
+ARG DEBIAN_VERSION='12'
+
+# separate installation of MS package repo to reduce potential conflicts with the template
+RUN apt-get install -y wget && \
+    wget https://packages.microsoft.com/config/debian/${DEBIAN_VERSION}/packages-microsoft-prod.deb -O /packages-microsoft-prod.deb && \
+    dpkg -i /packages-microsoft-prod.deb
 
 COPY debian.txt /tmp/src/
 RUN apt-get update && \
