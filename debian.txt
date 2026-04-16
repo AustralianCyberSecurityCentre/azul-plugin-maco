@@ -10,3 +10,4 @@ libmagic-dev
 libssl-dev
 python3-dev
 zlib1g-dev
+openssh-client
