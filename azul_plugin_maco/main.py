@@ -124,6 +124,7 @@ class AzulPluginMaco(BinaryPlugin):
         Feature("connection", desc="all connections", type=FeatureType.Uri),
         Feature("connection_c2", desc="a connection for c2", type=FeatureType.Uri),
         Feature("connection_upload", desc="a connection for upload", type=FeatureType.Uri),
+        Feature("connection_dead_drop_resolver", desc="a connection for dead drop resolver", type=FeatureType.Uri),
         Feature("connection_download", desc="a connection for download", type=FeatureType.Uri),
         Feature("connection_propagate", desc="a connection to propagate", type=FeatureType.Uri),
         Feature("connection_tunnel", desc="a connection to tunnel", type=FeatureType.Uri),
