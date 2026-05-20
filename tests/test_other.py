@@ -1,6 +1,7 @@
 """Test cases for the 'other' optional Maco field."""
 
 import os
+import re
 
 from azul_runner import Event, EventData, EventParent
 from azul_runner import FeatureValue as FV
@@ -163,3 +164,18 @@ class TestExecute(test_template.TestPlugin):
             no_multiprocessing=True,
         )
         self.assertEqual(result["OtherBinaryUnmapped"].state.failure_name, "ExtractorOtherMappingException")
+
+    def test_maco_config(self):
+        """Verify maco version is being set in the configuration."""
+        plugin_instance = AzulPluginMaco()
+        # verify there is somethign in the maco version
+        self.assertGreater(len(plugin_instance.cfg.maco_version), 2)
+        # Verify the maco version looks something like a semVer string.
+        semverRegex = re.compile(
+            r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
+        )
+        searchResult = semverRegex.search(plugin_instance.cfg.maco_version)
+        self.assertIsNotNone(
+            searchResult,
+            msg=f"The maco version had a value of '{plugin_instance.cfg.maco_version}' which is not a valid semVersion",
+        )
