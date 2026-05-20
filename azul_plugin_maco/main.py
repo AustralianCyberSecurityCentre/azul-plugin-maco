@@ -8,6 +8,7 @@ import glob
 import os
 import tempfile
 import traceback
+from importlib.metadata import version
 from shutil import copytree, rmtree
 from typing import Any
 
@@ -86,6 +87,7 @@ class AzulPluginMaco(BinaryPlugin):
         custom_features=(dict, {}),
         jobs_between_clearing_pycs=(int, 1000),
         create_venv=(bool, True),
+        maco_version=(str, version("maco")),
     )
 
     # Features common to multiple extractors only
