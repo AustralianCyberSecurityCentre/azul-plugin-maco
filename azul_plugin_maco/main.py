@@ -288,6 +288,7 @@ class AzulPluginMaco(BinaryPlugin):
         Feature("config_file_extensions", desc="File extensions targeted by the binary", type=FeatureType.String),
         Feature("payload_parent_filename", desc="Name of file which spawned the payload.", type=FeatureType.Filepath),
         Feature("config_layout", desc="Configuration layout format string", type=FeatureType.String),
+        Feature("warning", desc="Warnings during partial extraction of  features.", type=FeatureType.String),
     ]
 
     # This is defined here to configure the MRO; this gets dynamically updated each invocation even if
@@ -447,6 +448,17 @@ class AzulPluginMaco(BinaryPlugin):
                     raise Exception(f"Could not find parent {parent_id} in {list(found_binaries.keys())}")
         if mappedData.other:
             self._process_other(mappedData.other, self._event_main)
+
+        if len(result.warnings) > 0:
+            # Add all the warning messages.
+            for w in result.warnings:
+                self.add_feature_values("warning", w.message)
+            # add the first warnings stack trace.
+            return State(
+                label=State.Label.COMPLETED_WITH_ERRORS,
+                failure_name="partial_extraction",
+                message=result.warnings[0].stack_trace,
+            )
 
     def _transform_generic_value(self, type: FeatureType, value):
         """Hydrate a feature value into a native type."""
