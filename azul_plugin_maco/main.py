@@ -416,8 +416,8 @@ class AzulPluginMaco(BinaryPlugin):
 
         # execute the actual script
         data = job.get_data()
-        result = self.collected.extract(data, name)
-        if not result:
+        result = self.collected.extract_model(data, name)
+        if result is None:
             # FUTURE completed-empty when multi-plugins are supported
             return State(
                 label=State.Label.OPT_OUT,

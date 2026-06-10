@@ -5,6 +5,7 @@ from typing import Optional, Set, Tuple
 from urllib import parse
 
 from azul_runner import FV
+from maco.model import ExtractorModel
 from pydantic import BaseModel
 
 
@@ -537,11 +538,11 @@ def map_child_maco_features(d: dict) -> Tuple[MappedData, dict]:
         return mapped, remaining_features
 
 
-def map_config(d: dict) -> MappedData:
+def map_config(d: ExtractorModel) -> MappedData:
     """Map extractor config to Azul features."""
     mapped = MappedData()
 
-    with ClearDict(d) as cd1:
+    with ClearDict(d.model_dump(exclude_defaults=True)) as cd1:
         # family is required
         map_maco_config(mapped, cd1, False)
 
