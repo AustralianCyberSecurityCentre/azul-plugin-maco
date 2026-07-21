@@ -108,6 +108,9 @@ def _build_uri(*, proto="", un="", pw="", host="", port="", path="", query="", f
     if uri and uri.startswith("//"):
         # remove the starting "//"
         uri = uri.replace("//", "", 1)
+
+    if uri == f"{proto}://":
+        return None
     return uri if uri else None
 
 
