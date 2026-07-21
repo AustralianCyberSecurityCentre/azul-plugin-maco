@@ -24,7 +24,6 @@ from azul_runner import (
     cmdline_run,
 )
 from maco import collector
-from maco.model import ExtractorModel
 
 from . import mapper
 
@@ -476,7 +475,6 @@ class AzulPluginMaco(BinaryPlugin):
                 failure_name="partial_extraction",
                 message=result.warnings[0].stack_trace,
             )
-
 
     def _transform_generic_value(self, type: FeatureType, value):
         """Hydrate a feature value into a native type."""
