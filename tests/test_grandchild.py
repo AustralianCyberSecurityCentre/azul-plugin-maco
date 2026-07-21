@@ -3,6 +3,7 @@
 import os
 
 from azul_runner import (
+    DataLabel,
     Event,
     EventData,
     EventParent,
@@ -48,42 +49,36 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={"family": [FV("random")]},
                     ),
                     Event(
                         parent=EventParent(
-                            entity_type="binary",
-                            entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                            sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         ),
-                        entity_type="binary",
-                        entity_id="03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+                        sha256="03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
                         relationship={"action": "extracted"},
                         data=[
                             EventData(
                                 hash="03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-                                label="content",
+                                label=DataLabel.CONTENT,
                             )
                         ],
                     ),
                     Event(
                         parent=EventParent(
                             parent=EventParent(
-                                entity_type="binary",
-                                entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                                sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                             ),
-                            entity_type="binary",
-                            entity_id="03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+                            sha256="03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
                             relationship={"action": "extracted"},
                         ),
-                        entity_type="binary",
-                        entity_id="f8638b979b2f4f793ddb6dbd197e0ee25a7a6ea32b0ae22f5e3c5d119d839e75",
+                        sha256="f8638b979b2f4f793ddb6dbd197e0ee25a7a6ea32b0ae22f5e3c5d119d839e75",
                         relationship={"action": "extracted", "datatype": "config"},
                         data=[
                             EventData(
                                 hash="f8638b979b2f4f793ddb6dbd197e0ee25a7a6ea32b0ae22f5e3c5d119d839e75",
-                                label="content",
+                                label=DataLabel.CONTENT,
                             )
                         ],
                         features={

@@ -2,7 +2,7 @@
 
 import os
 
-from azul_runner import Event, EventData, EventParent
+from azul_runner import DataLabel, Event, EventData, EventParent
 from azul_runner import FeatureValue as FV
 from azul_runner import JobResult, State, test_template
 
@@ -38,8 +38,7 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={"family": [FV("random")]},
                     )
                 ],
@@ -79,8 +78,7 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={
                             "config_offset": [FV(394)],
                             "config_section_name": [FV(".abc")],
@@ -92,7 +90,7 @@ class TestExecute(test_template.TestPlugin):
                         data=[
                             EventData(
                                 hash="f71222bb898359be8df31042439ee36eba63546f333af661ae23db10fbb69df2",
-                                label="text",
+                                label=DataLabel.TEXT,
                             )
                         ],
                     )
@@ -124,22 +122,19 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={"family": [FV("random")]},
                     ),
                     Event(
                         parent=EventParent(
-                            entity_type="binary",
-                            entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                            sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         ),
-                        entity_type="binary",
-                        entity_id="03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+                        sha256="03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
                         relationship={"action": "extracted"},
                         data=[
                             EventData(
                                 hash="03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-                                label="content",
+                                label=DataLabel.CONTENT,
                             )
                         ],
                     ),

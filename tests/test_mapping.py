@@ -5,6 +5,7 @@ import os
 import tempfile
 
 from azul_runner import (
+    DataLabel,
     Event,
     EventData,
     EventParent,
@@ -133,8 +134,7 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={"family": [FV("random")]},
                     )
                 ],
@@ -159,8 +159,7 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={
                             "family": [FV("malware")],
                             "client": [
@@ -213,17 +212,14 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={"family": [FV("malware")]},
                     ),
                     Event(
                         parent=EventParent(
-                            entity_type="binary",
-                            entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                            sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         ),
-                        entity_type="binary",
-                        entity_id="e9c83ff8680a99f5d96cb724e9bfe32d4ca87068172874439b4fe671564a9770",
+                        sha256="e9c83ff8680a99f5d96cb724e9bfe32d4ca87068172874439b4fe671564a9770",
                         relationship={
                             "action": "deobfuscated",
                             "datatype": "payload",
@@ -232,18 +228,16 @@ class TestExecute(test_template.TestPlugin):
                         data=[
                             EventData(
                                 hash="e9c83ff8680a99f5d96cb724e9bfe32d4ca87068172874439b4fe671564a9770",
-                                label="content",
+                                label=DataLabel.CONTENT,
                             )
                         ],
                         features={},
                     ),
                     Event(
                         parent=EventParent(
-                            entity_type="binary",
-                            entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                            sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         ),
-                        entity_type="binary",
-                        entity_id="29cf67d7d3ff86c378e3c56dce4fae227022b71cf4350b1049dff7356f77f674",
+                        sha256="29cf67d7d3ff86c378e3c56dce4fae227022b71cf4350b1049dff7356f77f674",
                         relationship={
                             "action": "extracted",
                             "datatype": "payload",
@@ -252,7 +246,7 @@ class TestExecute(test_template.TestPlugin):
                         data=[
                             EventData(
                                 hash="29cf67d7d3ff86c378e3c56dce4fae227022b71cf4350b1049dff7356f77f674",
-                                label="content",
+                                label=DataLabel.CONTENT,
                             )
                         ],
                         features={},
@@ -298,8 +292,7 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={
                             "algorithm": [FV("alxor", label="binary")],
                             "algorithm_binary": [FV("alxor")],
@@ -479,16 +472,14 @@ class TestExecute(test_template.TestPlugin):
                     ),
                     Event(
                         parent=EventParent(
-                            entity_type="binary",
-                            entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                            sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         ),
-                        entity_type="binary",
-                        entity_id="e9c83ff8680a99f5d96cb724e9bfe32d4ca87068172874439b4fe671564a9770",
+                        sha256="e9c83ff8680a99f5d96cb724e9bfe32d4ca87068172874439b4fe671564a9770",
                         relationship={"action": "extracted", "datatype": "payload"},
                         data=[
                             EventData(
                                 hash="e9c83ff8680a99f5d96cb724e9bfe32d4ca87068172874439b4fe671564a9770",
-                                label="content",
+                                label=DataLabel.CONTENT,
                             )
                         ],
                         features={
@@ -506,16 +497,14 @@ class TestExecute(test_template.TestPlugin):
                     ),
                     Event(
                         parent=EventParent(
-                            entity_type="binary",
-                            entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                            sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         ),
-                        entity_type="binary",
-                        entity_id="053ec394f2cfed3507e682b59d7b2397f5eb49163acc34a934e9b3da6ea766e4",
+                        sha256="053ec394f2cfed3507e682b59d7b2397f5eb49163acc34a934e9b3da6ea766e4",
                         relationship={"action": "extracted", "datatype": "payload"},
                         data=[
                             EventData(
                                 hash="053ec394f2cfed3507e682b59d7b2397f5eb49163acc34a934e9b3da6ea766e4",
-                                label="content",
+                                label=DataLabel.CONTENT,
                             )
                         ],
                         features={
@@ -551,8 +540,7 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="1239ed4331b652fd9a227355f9ce1568274e1811fe18f9fb38cb404a98536fab",
+                        sha256="1239ed4331b652fd9a227355f9ce1568274e1811fe18f9fb38cb404a98536fab",
                         features={
                             "attack": [FV("T1204.002")],
                             "category": [FV("adware")],
@@ -561,16 +549,14 @@ class TestExecute(test_template.TestPlugin):
                     ),
                     Event(
                         parent=EventParent(
-                            entity_type="binary",
-                            entity_id="1239ed4331b652fd9a227355f9ce1568274e1811fe18f9fb38cb404a98536fab",
+                            sha256="1239ed4331b652fd9a227355f9ce1568274e1811fe18f9fb38cb404a98536fab",
                         ),
-                        entity_type="binary",
-                        entity_id="053ec394f2cfed3507e682b59d7b2397f5eb49163acc34a934e9b3da6ea766e4",
+                        sha256="053ec394f2cfed3507e682b59d7b2397f5eb49163acc34a934e9b3da6ea766e4",
                         relationship={"action": "extracted", "datatype": "payload"},
                         data=[
                             EventData(
                                 hash="053ec394f2cfed3507e682b59d7b2397f5eb49163acc34a934e9b3da6ea766e4",
-                                label="content",
+                                label=DataLabel.CONTENT,
                             )
                         ],
                         features={
@@ -766,8 +752,7 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={
                             "family": [FV("malware")],
                             "connection": [
@@ -804,8 +789,7 @@ class TestExecute(test_template.TestPlugin):
                     state=State(State.Label.COMPLETED),
                     events=[
                         Event(
-                            entity_type="binary",
-                            entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                            sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                             features={"cool_cats": [FV("apple")], "family": [FV("random")]},
                         )
                     ],
@@ -837,8 +821,7 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={
                             "family": [FV("scripts")],
                             "file_extension": [FV("blargo")],
@@ -874,8 +857,7 @@ class TestExecute(test_template.TestPlugin):
                     state=State(State.Label.COMPLETED),
                     events=[
                         Event(
-                            entity_type="binary",
-                            entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                            sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                             features={
                                 "family": [FV("family"), FV("random")],
                                 "builder_hash": [FV("de21e4fc85c688c6e84b36adbb1b7ef1")],

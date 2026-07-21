@@ -9,7 +9,7 @@ import os
 import tempfile
 import traceback
 from shutil import copytree, rmtree
-from typing import Any
+from typing import Any, BinaryIO, Protocol, cast
 
 from azul_runner import (
     FV,
@@ -40,6 +40,18 @@ class ExtractorNoneFoundException(Exception):
 
 
 _FEATURE_NAMES = [v.value for v in FeatureType]
+
+
+class MacoConfig(Protocol):
+    """Typed view of the plugin config values used by MACO plugin."""
+
+    scripts: str
+    exclude: list[str]
+    include: list[str]
+    security_map: dict[str, str]
+    custom_features: dict
+    jobs_between_clearing_pycs: int
+    create_venv: bool
 
 
 def _load_dynamic_features(raw_features: dict[str, str]) -> list[Feature]:
@@ -292,7 +304,7 @@ class AzulPluginMaco(BinaryPlugin):
     # it is "static"
     FEATURES = []
 
-    def __init__(self, config: dict[str, dict[str, Any]] = None) -> None:
+    def __init__(self, config: dict[str, dict[str, Any]] | None = None) -> None:
         # Update features with anything that is dynamically configured by the environment
         # (do this each time to make testing easier)
         # This needs to happen before the parent init as that probes features
@@ -316,22 +328,24 @@ class AzulPluginMaco(BinaryPlugin):
 
         self._FEATURE_TYPES = dict([(feature.name, feature.type) for feature in self.FEATURES])
 
+        cfg = cast(MacoConfig, self.cfg)
+
         # different MACO repos may have different security/sharing lables than those configured in Azul
-        self.logger.debug(f"{self.cfg.security_map=}")
+        self.logger.debug(f"{cfg.security_map=}")
 
         # copy scripts to tmp dir (venv creation triggers runner watch restart)
         script_path = os.path.join(tempfile.gettempdir(), "azul-maco")
         if os.path.exists(script_path):
             rmtree(script_path)
         # ignore_dangling_symlinks to allow late creation of symlinked files
-        copytree(self.cfg.scripts, script_path, ignore_dangling_symlinks=True)
+        copytree(cfg.scripts, script_path, ignore_dangling_symlinks=True)
 
         # venv config exposed only to support quicker testing.
         self.collected = collector.Collector(
             script_path,
-            include=self.cfg.include,
-            exclude=self.cfg.exclude,
-            create_venv=self.cfg.create_venv,
+            include=cfg.include,
+            exclude=cfg.exclude,
+            create_venv=cfg.create_venv,
             enable_venv_cache=True,
         )
         self.runs = {}
@@ -342,7 +356,7 @@ class AzulPluginMaco(BinaryPlugin):
 
         if not self.collected.extractors:
             raise ExtractorNoneFoundException(
-                f"No maco extractors found with {script_path=} {self.cfg.include=} {self.cfg.exclude=}"
+                f"No maco extractors found with {script_path=} {cfg.include=} {cfg.exclude=}"
             )
 
         for name, extr_details in self.collected.extractors.items():
@@ -351,7 +365,7 @@ class AzulPluginMaco(BinaryPlugin):
                 self.logger.info(f"found extractor {name}")
                 if extr["sharing"]:
                     sharing_label = extr["sharing"].upper()
-                    security = self.cfg.security_map.get(sharing_label, sharing_label)
+                    security = cfg.security_map.get(sharing_label, sharing_label)
                     self.logger.info(f"extractor {name} has custom security {security}")
                 else:
                     security = self.SECURITY
@@ -385,10 +399,10 @@ class AzulPluginMaco(BinaryPlugin):
     def execute(self, job: Job):
         """Determine which malware config extractor scripts should run."""
         data = job.get_data()
-        self.runs = self.collected.match(data)
+        self.runs = self.collected.match(cast(BinaryIO, data))
 
         self.job_count += 1
-        if self.job_count > self.cfg.jobs_between_clearing_pycs:
+        if self.job_count > self.cfg.jobs_between_clearing_pycs:  # ty: ignore[unresolved-attribute] ty doesn't understand add_settings()
             self.job_count = 0
             self._clear_pycs()
 
@@ -404,6 +418,8 @@ class AzulPluginMaco(BinaryPlugin):
 
     def execute_script(self, name: str, job: Job):
         """Execute a specific malware config extractor script."""
+        if self.runs is None:
+            raise ValueError("Expected self.runs to be a dict, got None")
         if name not in self.runs:
             return State(
                 label=State.Label.OPT_OUT,
@@ -413,7 +429,7 @@ class AzulPluginMaco(BinaryPlugin):
 
         # execute the actual script
         data = job.get_data()
-        result = self.collected.extract(data, name)
+        result = self.collected.extract(cast(BinaryIO, data), name)
         if not result:
             # FUTURE completed-empty when multi-plugins are supported
             return State(
