@@ -8,6 +8,7 @@ import glob
 import os
 import tempfile
 import traceback
+from importlib.metadata import version
 from shutil import copytree, rmtree
 from typing import Any, BinaryIO, Protocol, cast
 
@@ -23,6 +24,7 @@ from azul_runner import (
     cmdline_run,
 )
 from maco import collector
+from maco.model import ExtractorModel
 
 from . import mapper
 
@@ -98,6 +100,7 @@ class AzulPluginMaco(BinaryPlugin):
         custom_features=(dict, {}),
         jobs_between_clearing_pycs=(int, 1000),
         create_venv=(bool, True),
+        maco_version=(str, version("maco")),
     )
 
     # Features common to multiple extractors only
@@ -298,6 +301,7 @@ class AzulPluginMaco(BinaryPlugin):
         Feature("config_file_extensions", desc="File extensions targeted by the binary", type=FeatureType.String),
         Feature("payload_parent_filename", desc="Name of file which spawned the payload.", type=FeatureType.Filepath),
         Feature("config_layout", desc="Configuration layout format string", type=FeatureType.String),
+        Feature("warning", desc="Warnings during partial extraction of  features.", type=FeatureType.String),
     ]
 
     # This is defined here to configure the MRO; this gets dynamically updated each invocation even if
@@ -439,7 +443,7 @@ class AzulPluginMaco(BinaryPlugin):
             )
 
         # map all feature and children
-        mappedData: mapper.MappedData = mapper.map_config(result)
+        mappedData: mapper.MappedData = mapper.map_config(cast(ExtractorModel, result))
         if mappedData.features:
             self.add_many_feature_values(mappedData.features)
 
@@ -461,6 +465,17 @@ class AzulPluginMaco(BinaryPlugin):
                     raise Exception(f"Could not find parent {parent_id} in {list(found_binaries.keys())}")
         if mappedData.other:
             self._process_other(mappedData.other, self._event_main)
+
+        if len(result.warnings) > 0:  # ty: ignore[unresolved-attribute]
+            # Add all the warning messages.
+            for w in result.warnings:  # ty: ignore[unresolved-attribute]
+                self.add_feature_values("warning", w.message)
+            # add the first warnings stack trace.
+            return State(
+                label=State.Label.COMPLETED_WITH_ERRORS,
+                failure_name="partial_extraction",
+                message=result.warnings[0].stack_trace,  # ty: ignore[unresolved-attribute]
+            )
 
     def _transform_generic_value(self, type: FeatureType, value):
         """Hydrate a feature value into a native type."""

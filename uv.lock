@@ -108,7 +108,7 @@ dev = [
 requires-dist = [
     { name = "azul-bedrock", specifier = ">=11.0.26", index = "https://devpi.acsc.internal/azul/stable/" },
     { name = "azul-runner", specifier = ">=9.0.38", index = "https://devpi.acsc.internal/azul/stable/" },
-    { name = "maco", specifier = ">=1.2.16" },
+    { name = "maco", specifier = ">=1.3.1" },
     { name = "pydantic", specifier = ">=2.0.0" },
 ]
 
@@ -124,7 +124,7 @@ dev = [
 
 [[package]]
 name = "azul-runner"
-version = "12.0.50"
+version = "12.0.52"
 source = { registry = "https://devpi.acsc.internal/azul/stable/" }
 dependencies = [
     { name = "azul-bedrock" },
@@ -137,7 +137,7 @@ dependencies = [
     { name = "watchdog" },
 ]
 wheels = [
-    { url = "https://devpi.acsc.internal/azul/stable/+f/ae6/a73ccff0ed192/azul_runner-12.0.50-py3-none-any.whl", hash = "sha256:ae6a73ccff0ed1929174153edebbb811de119c9ebb54ad33b705849463af97d3" },
+    { url = "https://devpi.acsc.internal/azul/stable/+f/3d4/705d45ff95cea/azul_runner-12.0.52-py3-none-any.whl", hash = "sha256:3d4705d45ff95ceab871aa6493a170a4682d4f3c49bcd239602923fbe37c5772" },
 ]
 
 [package.optional-dependencies]
