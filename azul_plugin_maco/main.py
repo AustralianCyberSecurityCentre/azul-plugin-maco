@@ -433,7 +433,7 @@ class AzulPluginMaco(BinaryPlugin):
 
         # execute the actual script
         data = job.get_data()
-        result = self.collected.extract(cast(BinaryIO, data), name)
+        result = self.collected.extract_model(cast(BinaryIO, data), name)
         if not result:
             # FUTURE completed-empty when multi-plugins are supported
             return State(
@@ -443,7 +443,7 @@ class AzulPluginMaco(BinaryPlugin):
             )
 
         # map all feature and children
-        mappedData: mapper.MappedData = mapper.map_config(cast(ExtractorModel, result))
+        mappedData: mapper.MappedData = mapper.map_config(result)
         if mappedData.features:
             self.add_many_feature_values(mappedData.features)
 
@@ -466,16 +466,17 @@ class AzulPluginMaco(BinaryPlugin):
         if mappedData.other:
             self._process_other(mappedData.other, self._event_main)
 
-        if len(result.warnings) > 0:  # ty: ignore[unresolved-attribute]
+        if len(result.warnings) > 0:
             # Add all the warning messages.
-            for w in result.warnings:  # ty: ignore[unresolved-attribute]
+            for w in result.warnings:
                 self.add_feature_values("warning", w.message)
             # add the first warnings stack trace.
             return State(
                 label=State.Label.COMPLETED_WITH_ERRORS,
                 failure_name="partial_extraction",
-                message=result.warnings[0].stack_trace,  # ty: ignore[unresolved-attribute]
+                message=result.warnings[0].stack_trace,
             )
+
 
     def _transform_generic_value(self, type: FeatureType, value):
         """Hydrate a feature value into a native type."""
