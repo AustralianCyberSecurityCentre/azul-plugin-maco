@@ -33,8 +33,7 @@ class TestExecute(test_template.TestPlugin):
                 state=State(State.Label.COMPLETED),
                 events=[
                     Event(
-                        entity_type="binary",
-                        entity_id="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
+                        sha256="874b79e5e72899321c28e872d892a957ff8141d6f21128b69dd7da25bc558fb7",
                         features={"family": [FeatureValue("evil")]},
                     ),
                 ],

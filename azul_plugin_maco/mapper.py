@@ -12,7 +12,7 @@ from pydantic import BaseModel
 class Child(BaseModel):
     """Child information produced from maco binary instance."""
 
-    data: bytes = None
+    data: bytes | None = None
     relationship: dict = {}
     features: dict = {}
     other: dict = {}
@@ -170,7 +170,7 @@ def _map_http(
 
 
 def _map_connection(
-    protocol: str, server_host: str, server_port: int, client_ip: str, client_port: int, usage: str
+    protocol: str, server_host: str, server_port: str, client_ip: str, client_port: int, usage: str
 ) -> defaultdict:
     """Map tcp/udp connection config to features."""
     features: defaultdict = defaultdict(list)
