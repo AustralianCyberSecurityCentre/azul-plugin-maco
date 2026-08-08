@@ -1,6 +1,6 @@
 ARG REGISTRY="docker.io/library"
 ARG BUILD_IMAGE='python'
-ARG BUILD_TAG='3.12-bookworm@sha256:9bed8554e926c07c6f908841d5ee88c33e8df9236b191526bbce81a9062ab43a'
+ARG BUILD_TAG='3.12-bookworm@sha256:3cd9086bdb30f7c9bc08a3fa621d9842e0d3f6f9291aeb4677e0547817c10b12'
 ARG BASE_IMAGE='python'
 ARG BASE_TAG='3.12-slim-bookworm@sha256:4766d8b510c428e595d74b9cc5bbb2fae8e26316fffb4adc89908d79aacd58a2'
 
