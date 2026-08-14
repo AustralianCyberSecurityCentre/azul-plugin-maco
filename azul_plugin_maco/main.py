@@ -300,7 +300,6 @@ class AzulPluginMaco(BinaryPlugin):
         Feature("config_file_extensions", desc="File extensions targeted by the binary", type=FeatureType.String),
         Feature("payload_parent_filename", desc="Name of file which spawned the payload.", type=FeatureType.Filepath),
         Feature("config_layout", desc="Configuration layout format string", type=FeatureType.String),
-        Feature("warning", desc="Warnings during partial extraction of  features.", type=FeatureType.String),
     ]
 
     # This is defined here to configure the MRO; this gets dynamically updated each invocation even if
@@ -467,13 +466,17 @@ class AzulPluginMaco(BinaryPlugin):
 
         if len(result.warnings) > 0:
             # Add all the warning messages.
-            for w in result.warnings:
-                self.add_feature_values("warning", w.message)
+            total_warning = result.warnings[0].message
+            if len(result.warnings) > 1:
+                total_warning = ""
+                for i, w in enumerate(result.warnings):
+                    total_warning += f"warning {i + 1}: {w.message}\n"
+
             # add the first warnings stack trace.
             return State(
                 label=State.Label.COMPLETED_WITH_ERRORS,
                 failure_name="partial_extraction",
-                message=result.warnings[0].stack_trace,
+                message=total_warning,
             )
 
     def _transform_generic_value(self, type: FeatureType, value):
