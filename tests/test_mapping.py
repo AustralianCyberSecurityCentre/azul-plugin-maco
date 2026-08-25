@@ -83,10 +83,12 @@ class TestExecute(test_template.TestPlugin):
             [None, "Base", "Clear", "Description", "PartialMatch", "UnknownMapping", "UnspecifiedSharing"],
             list(inst._multiplugins.keys()),
         )
+        self.assertEqual("2020-02-02", inst._multiplugins["Clear"].version)
         self.assertEqual("Maco extractor for evil.", inst._multiplugins["Clear"].description)
         self.assertEqual("OFFICIAL TLP:CLEAR", inst._multiplugins["Clear"].security)
 
         # Use plugin security if extractor unspecified
+        self.assertEqual("2026-08-25", inst._multiplugins["UnspecifiedSharing"].version)
         self.assertEqual("OFFICIAL", inst._multiplugins["UnspecifiedSharing"].security)
 
         # Extractor classification unchanged if there is no mapping for it

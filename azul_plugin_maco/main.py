@@ -381,7 +381,11 @@ class AzulPluginMaco(BinaryPlugin):
                     except Exception as e:
                         self.logger.error(f"could not generate description for {name} {str(e)}")
 
-                self.register_multiplugin(name, None, gen(name), description=descr, security=security)
+                version = None
+                if extr["last_modified"] and len(extr["last_modified"]) > 0:
+                    version = extr["last_modified"]
+
+                self.register_multiplugin(name, version, gen(name), description=descr, security=security)
             except Exception:
                 self.logger.error(f"could not register extractor {name}: {traceback.format_exc()}")
                 continue

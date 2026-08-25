@@ -26,6 +26,8 @@ class Description(Base):
 class UnspecifiedSharing(Base):
     """This is my description."""
 
+    last_modified = "2026-08-25"
+
     sharing = None
 
 
