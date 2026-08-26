@@ -100,6 +100,7 @@ class AzulPluginMaco(BinaryPlugin):
         jobs_between_clearing_pycs=(int, 1000),
         create_venv=(bool, True),
         maco_version=(str, version("maco")),
+        git_sync_add_hash_to_version=False,
     )
 
     # Features common to multiple extractors only
