@@ -184,6 +184,10 @@ class AzulPluginMaco(BinaryPlugin):
         Feature("seed", desc="Seed value used for initalizing a random process.", type=FeatureType.String),
         Feature("nonce", desc="Initialization for cryptographic operations.", type=FeatureType.String),
         Feature("constants", desc="Constant values used during encryption.", type=FeatureType.String),
+        Feature("salt", desc="Salt value for cryptographic key derivation.", type=FeatureType.String),
+        Feature(
+            "encryption_password", desc="Password value for cryptographic key derivation.", type=FeatureType.String
+        ),
         # service
         Feature("service", desc="windows service ID", type=FeatureType.String),
         Feature("service_dll", desc="windows service dll", type=FeatureType.String),

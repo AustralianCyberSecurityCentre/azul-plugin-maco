@@ -141,6 +141,10 @@ def _map_encryption_dict(encryption_config: dict) -> defaultdict:
             features["seed"].append(FV(seed, label=usage_alg))
         if nonce := cd.get("nonce", None):
             features["nonce"].append(FV(nonce, label=usage_alg))
+        if salt := cd.get("salt", None):
+            features["salt"].append(FV(salt, label=usage_alg))
+        if password := cd.get("password", None):
+            features["encryption_password"].append(FV(password, label=usage_alg))
         for constant in cd.get("constants", []):
             features["constants"].append(FV(constant, label=usage_alg))
     return features

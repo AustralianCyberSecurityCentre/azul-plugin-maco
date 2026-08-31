@@ -362,6 +362,7 @@ class TestExecute(test_template.TestPlugin):
                             ],
                             "decoded_strings": [FV("are"), FV("some"), FV("strings"), FV("there")],
                             "dns_hostname": [FV("www.evil.com", label="dns://123.21.21.21:9")],
+                            "encryption_password": [FV("Hunter2", label="binary_alxor")],
                             "family": [FV("scuba")],
                             "header_fields": [
                                 FV(
@@ -454,6 +455,7 @@ class TestExecute(test_template.TestPlugin):
                             ],
                             "registry_read": [FV("HKLM_LOCAL_USER/system/location")],
                             "registry_store_data": [FV("HKLM_LOCAL_USER/some/location/to/key")],
+                            "salt": [FV("p3pp3r", label="binary_alxor")],
                             "seed": [FV("2", label="binary_alxor")],
                             "service": [FV("DeviceMonitorSvc")],
                             "service_description": [FV("Device Monitor Service", label="DeviceMonitorSvc")],
