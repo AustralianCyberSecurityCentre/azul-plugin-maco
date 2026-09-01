@@ -173,6 +173,8 @@ data_big = {
             "iv": "2432",
             "seed": "2",
             "nonce": "324324",
+            "password": "Hunter2",
+            "salt": "p3pp3r",
             "constants": ["53453", "8768", "34543"],
             "algorithm": "alxor",
             "usage": "binary",
