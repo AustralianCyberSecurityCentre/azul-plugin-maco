@@ -8,18 +8,14 @@ from azul_runner import (
     EventData,
     EventParent,
     FeatureValue,
-    Filepath,
     JobResult,
     State,
-    Uri,
     test_template,
 )
 
 from azul_plugin_maco.main import AzulPluginMaco
 
 FV = FeatureValue
-FVU = lambda x: FeatureValue(Uri(x))
-FVP = lambda x: FeatureValue(Filepath(x))
 
 
 _PLUGIN_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "extractors", "grandchild")
