@@ -238,7 +238,7 @@ class AzulPluginMaco(BinaryPlugin):
         Feature("payload_type", desc="type of payload", type=FeatureType.String),
         Feature("detected_processes", desc="processes the malware searches for", type=FeatureType.String),
         Feature("task_scheduler_name", desc="name of scheduled task", type=FeatureType.String),
-        Feature("task_scheduler_path", desc="path of scheduled task", type=FeatureType.String),
+        Feature("task_scheduler_path", desc="path of scheduled task", type=FeatureType.Filepath),
         Feature("task_scheduler_start_date", desc="start date and time for scheduled task", type=FeatureType.String),
         Feature(
             "task_scheduler_repeat_interval",
