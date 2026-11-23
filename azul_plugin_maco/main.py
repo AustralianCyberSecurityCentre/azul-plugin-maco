@@ -413,7 +413,7 @@ class AzulPluginMaco(BinaryPlugin):
         self.runs = self.collected.match(cast(BinaryIO, data))
 
         self.job_count += 1
-        if self.job_count > self.cfg.jobs_between_clearing_pycs:  # ty: ignore[unresolved-attribute] ty doesn't understand add_settings()
+        if self.job_count > self.cfg.jobs_between_clearing_pycs:  # ty: ignore[missing-attribute] ty doesn't understand add_settings()
             self.job_count = 0
             self._clear_pycs()
 
